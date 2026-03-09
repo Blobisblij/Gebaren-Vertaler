@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
-project(C_code C)
+project(MakeJSON C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(C_code main.c)
+add_executable(MakeJSON main.c cJSON.c)
