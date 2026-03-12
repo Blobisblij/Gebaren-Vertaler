@@ -5,4 +5,10 @@
 #ifndef MAKEJSON_MEMORYALOCATION_H
 #define MAKEJSON_MEMORYALOCATION_H
 
+
+//allocates heap mem for an array
+int* createArrayInt(int size);
+
+float* createArrayfloat(int size);
+
 #endif //MAKEJSON_MEMORYALOCATION_H
