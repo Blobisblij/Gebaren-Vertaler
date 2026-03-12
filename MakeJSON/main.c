@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "cJSON.h"
 #include "memoryalocation.h"
+// Leap library
+#include "/usr/include/LeapC.h"
 
 int main() {
     // Create root array
@@ -41,6 +43,21 @@ int main() {
     // Cleanup
     cJSON_Delete(root);
     free(json_str);
+
+    int *lijstie = createArrayInt(5);
+
+    lijstie[0] = 0;
+    lijstie[1] = 3;
+    lijstie[2] = 2;
+    lijstie[3] = 3;
+    lijstie[4] = 4;
+//testje
+    printf("lijstie[0] = %d\n", lijstie[0]);
+    printf("lijstie[1] = %d\n", lijstie[1]);
+    printf("lijstie[2] = %d\n", lijstie[2]);
+    printf("lijstie[3] = %d\n", lijstie[3]);
+    printf("lijstie[4] = %d\n", lijstie[4]);
+    free(lijstie);
 
     return 0;
 }
