@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "cJSON.h"
+#include "memoryalocation.h"
 
 int main() {
     // Create root array

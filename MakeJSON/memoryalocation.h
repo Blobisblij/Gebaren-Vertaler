@@ -1,0 +1,8 @@
+//
+// Created by zooi on 3/12/26.
+//
+
+#ifndef MAKEJSON_MEMORYALOCATION_H
+#define MAKEJSON_MEMORYALOCATION_H
+
+#endif //MAKEJSON_MEMORYALOCATION_H
