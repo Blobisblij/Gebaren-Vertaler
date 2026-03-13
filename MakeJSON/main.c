@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include "cJSON.h"
 #include "memoryalocation.h"
-// Leap library
-#include "/usr/include/LeapC.h"
+#include "NamedPipes.h"
+#include <LeapC.h>
+
 
 int main() {
     // Create root array
@@ -58,6 +64,22 @@ int main() {
     printf("lijstie[3] = %d\n", lijstie[3]);
     printf("lijstie[4] = %d\n", lijstie[4]);
     free(lijstie);
+
+    //maak ipc pipe aan
+    char * pipename = "/tmp/Leapcam";
+    createPipe(pipename);
+
+    char woordje[] = "woordje";
+    int pipe = open(pipename, O_RDWR);
+    write(pipe,woordje,strlen(woordje));
+
+    char woorduit[8];
+    read(pipe,woorduit,sizeof(char)*8);
+    printf("%s\n", woorduit);
+    close(pipe);
+
+    remove(pipename);
+    //track en schijf loop
 
     return 0;
 }
