@@ -1,3 +1,4 @@
+#include <bemapiset.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +9,14 @@
 #include "cJSON.h"
 #include "memoryalocation.h"
 #include "NamedPipes.h"
+#include <time.h>
+#include <windows.h>
+#ifdef __linux__
 #include <LeapC.h>
-
+#endif
+#ifdef _WIN64
+#include "C:\Program Files\Ultraleap\LeapSDK\include/LeapC.h"
+#endif
 
 int main() {
     // Create root array
@@ -66,19 +73,45 @@ int main() {
     free(lijstie);
 
     //maak ipc pipe aan
-    char * pipename = "/tmp/Leapcam";
-    createPipe(pipename);
+#ifdef __linux__
+    char *pipename = createArrayString(13);
+    strcpy(pipename, "/tmp/Leapcam");
+#endif
 
-    char woordje[] = "woordje";
+#ifdef _WIN64
+    char *pipename = createArrayString(17);
+    strcpy(pipename, "\\\\.\\pipe\\Leapcam");
+#endif
+
+    char *woordje = createArrayString(8);
+    strcpy(woordje, "woordje");
+    HANDLE pipe = createPipe(pipename);
+
+    sleep(10);
+
+    writePipe(pipe, woordje);
+
+    CloseHandle(pipe);
+
+    //int size = sizeof(woordje);
+    //char *woorduit = readPipe(pipe,size);
+    //printf("%s\n",woorduit);
+
+
+
+
+    /*
+
     int pipe = open(pipename, O_RDWR);
+
     write(pipe,woordje,strlen(woordje));
 
     char woorduit[8];
     read(pipe,woorduit,sizeof(char)*8);
     printf("%s\n", woorduit);
     close(pipe);
+    */
 
-    remove(pipename);
     //track en schijf loop
 
     return 0;

@@ -26,3 +26,14 @@ float* createArrayfloat(int size)
     }
     return array;
 }
+
+char* createArrayString(int size)
+{
+    char* array = (char*)malloc(sizeof(char) * size);
+    if (array == NULL)
+    {
+        printf("Error allocating memory\n");
+        exit(1);
+    }
+    return array;
+}

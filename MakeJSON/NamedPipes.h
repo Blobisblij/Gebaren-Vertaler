@@ -4,11 +4,17 @@
 #define MAKEJSON_NAMEDPIPES_H
 //header voor windows systeem
 #ifdef _WIN64
-void createPipe(char * pipename);
+HANDLE createPipe(char * pipename);
+//returnt een array met de geleze info
+char *readPipe(HANDLE pipename, int size);
+//schrijft info naar de pipe
+int writePipe(HANDLE pipename, char *message);
+//opent een bestaande pipe
+HANDLE openPipe(char * pipename);
 #endif
 //header voor linux systeem
 #ifdef __linux__
-void createPipe(char * pipename);
+int createPipe(char * pipename);
 #endif
 
 #endif //MAKEJSON_NAMEDPIPES_H

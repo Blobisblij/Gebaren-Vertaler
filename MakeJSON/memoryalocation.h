@@ -11,4 +11,6 @@ int* createArrayInt(int size);
 
 float* createArrayfloat(int size);
 
+char* createArrayString(int size);
+
 #endif //MAKEJSON_MEMORYALOCATION_H
