@@ -16,11 +16,45 @@
 
 //Pipe code als systeem linux draaid
 #ifdef __linux__
-int createPipe(char * pipename) {
+int createPipe(char *pipename) {
     mkfifo(pipename, 0600);
-    return 0
+    int pipe = open(pipename,O_RDWR);
+    if (pipe == 1) {
+        printf("failed to open pipe");
+        return 1;
+    }
+    return pipe;
 }
 
+char *readPipe(int pipe, int size) {
+    char *readOutput = createArrayString(size);
+    read(pipe, readOutput, size);
+    return readOutput;
+}
+
+int writePipe(int pipe, char *message) {
+    int succes = write(pipe,message,strlen(message));
+
+    if (!succes) {
+        printf("failed to write to pipe");
+        return 1;
+    }
+    return 0;
+}
+
+int openPipe(char *pipename) {
+    int pipe = open(pipename,O_RDWR);
+    if (pipe == 1) {
+        printf("failed to open pipe");
+        return 1;
+    }
+    return pipe;
+}
+
+int closePipe(int pipe) {
+    close(pipe);
+    return 0;
+}
 #endif
 
 
@@ -94,5 +128,9 @@ HANDLE openPipe(char * pipename) {
         return 0;
     }
     return pipeHandle;
+}
+
+int closePipe(HANDLE pipename) {
+    //
 }
 #endif

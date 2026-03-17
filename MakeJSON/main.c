@@ -81,17 +81,17 @@ int main() {
 #ifdef _WIN64
     char *pipename = createArrayString(17);
     strcpy(pipename, "\\\\.\\pipe\\Leapcam");
+    HANDLE pipe = createPipe(pipename);
 #endif
 
     char *woordje = createArrayString(8);
     strcpy(woordje, "woordje");
-    HANDLE pipe = createPipe(pipename);
 
     sleep(10);
 
     writePipe(pipe, woordje);
 
-    CloseHandle(pipe);
+    //CloseHandle(pipe);
 
     //int size = sizeof(woordje);
     //char *woorduit = readPipe(pipe,size);

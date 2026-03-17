@@ -8,7 +8,7 @@
 //Array in heap alocator
 int* createArrayInt(int size)
 {
-    int* array = (int*)malloc(sizeof(int) * size);
+    int* array = (int*)malloc(size);
     if (array == NULL)
     {
         printf("Error allocating memory\n");
@@ -18,7 +18,7 @@ int* createArrayInt(int size)
 }
 float* createArrayfloat(int size)
 {
-    float* array = (float*)malloc(sizeof(float) * size);
+    float* array = (float*)malloc(size);
     if (array == NULL)
     {
         printf("Error allocating memory\n");
@@ -29,7 +29,7 @@ float* createArrayfloat(int size)
 
 char* createArrayString(int size)
 {
-    char* array = (char*)malloc(sizeof(char) * size);
+    char* array = (char*)malloc(size);
     if (array == NULL)
     {
         printf("Error allocating memory\n");

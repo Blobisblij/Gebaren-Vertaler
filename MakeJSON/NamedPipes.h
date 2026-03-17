@@ -11,10 +11,21 @@ char *readPipe(HANDLE pipename, int size);
 int writePipe(HANDLE pipename, char *message);
 //opent een bestaande pipe
 HANDLE openPipe(char * pipename);
+//sluit een bestaande pipe
+int closePipe(HANDLE pipename);
 #endif
 //header voor linux systeem
 #ifdef __linux__
+//makes a pipe
 int createPipe(char * pipename);
+//reads from pipe
+char *readPipe(int pipe, int size);
+//writes to pipe
+int writePipe(int pipe, char *message);
+//opens a pipe
+int openPipe(char * pipename);
+//closes a pipe
+int closePipe(int pipe);
 #endif
 
 #endif //MAKEJSON_NAMEDPIPES_H
