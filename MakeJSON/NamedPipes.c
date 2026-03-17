@@ -53,6 +53,7 @@ int openPipe(char *pipename) {
 
 int closePipe(int pipe) {
     close(pipe);
+
     return 0;
 }
 #endif
