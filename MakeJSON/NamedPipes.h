@@ -1,9 +1,9 @@
 
-
 #ifndef MAKEJSON_NAMEDPIPES_H
 #define MAKEJSON_NAMEDPIPES_H
 //header voor windows systeem
 #ifdef _WIN64
+#include <windows.h>
 HANDLE createPipe(char * pipename);
 //returnt een array met de geleze info
 char *readPipe(HANDLE pipename, int size);

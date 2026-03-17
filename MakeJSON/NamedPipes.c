@@ -132,6 +132,7 @@ HANDLE openPipe(char * pipename) {
 }
 
 int closePipe(HANDLE pipename) {
-    //
+    CloseHandle(pipename);
+    return 0;
 }
 #endif
