@@ -8,3 +8,5 @@ add_executable(MakeJSON main.c
         memoryalocation.h
         NamedPipes.c
         NamedPipes.h)
+
+target_link_libraries(MakeJSON PRIVATE LeapC)
