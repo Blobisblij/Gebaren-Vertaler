@@ -3,4 +3,10 @@ project(MakeJSON C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(MakeJSON main.c cJSON.c)
+add_executable(MakeJSON main.c
+        memoryalocation.c
+        memoryalocation.h
+        NamedPipes.c
+        NamedPipes.h)
+
+target_link_libraries(MakeJSON PRIVATE LeapC)
