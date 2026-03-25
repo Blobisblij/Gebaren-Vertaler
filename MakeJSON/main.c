@@ -18,10 +18,8 @@
 #endif
 
 int main() {
-    // Create root array
-
     //maak ipc pipe aan
-
+printf("hoi");
 #ifdef __linux__
     char *pipename = createArrayString(13);
     strcpy(pipename, "/tmp/Leapcam");
@@ -33,6 +31,10 @@ int main() {
     strcpy(pipename, "\\\\.\\pipe\\Leapcam");
     HANDLE pipe = createPipe(pipename);
 #endif
+    char *waa = "de wereld is van mij";
+    writePipe(pipe, waa);
+
+    // maak verbinding met de leap camara en vraag frames
     LEAP_CONNECTION connection = NULL;
     eLeapRS result = LeapCreateConnection(NULL, &connection);
     if (result != eLeapRS_Success) return 1;
