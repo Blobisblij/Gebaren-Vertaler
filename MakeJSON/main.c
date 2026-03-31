@@ -15,7 +15,6 @@
 #include <bemapiset.h>
 #include <windows.h>
 #include "C:\Program Files\Ultraleap\LeapSDK\include/LeapC.h"
-#include <unistd.h>
 #endif
 
 int main() {
@@ -48,46 +47,39 @@ int main() {
         if (result != eLeapRS_Success) continue;
 
         if (msg.type == eLeapEventType_Tracking) {
-        	const LEAP_TRACKING_EVENT* frame = msg.tracking_event;
+            frame = msg.tracking_event;
 
-        	if (frame && frame->nHands > 0)
-        	{
-        		int numHands = frame->nHands;
-        		printf("Hands: %d\n", numHands);
+            if (frame->nHands > 0) {
+                int numHands = frame->nHands;
+                printf("Hands: %d | ",numHands);
 
-        		const LEAP_HAND* hand1 = &frame->pHands[0];
+                const LEAP_HAND* hand1 = &frame->pHands[0]; // first hand
+                float x_h1 = hand1->palm.position.x;
+                float y_h1 = hand1->palm.position.y;
+                float z_h1 = hand1->palm.position.z;
+                printf("Palm Hand 1: x=%.0f y=%.0f z=%.0f\n", x_h1, y_h1, z_h1);
 
-				LEAP_VECTOR palm = hand1->palm.position;
-
-				for (int i = 0; i < 5; i++)
-				{
-				    LEAP_DIGIT digit = hand1->digits[i];
-				    LEAP_VECTOR tip = digit.bones[3].next_joint;
-
-				    LEAP_VECTOR delta;
-				    delta.x = tip.x - palm.x;
-				    delta.y = tip.y - palm.y;
-				    delta.z = tip.z - palm.z;
-
-				    printf("Finger %d delta: %d, %d, %d\n", i, (int)delta.x, (int)delta.y, (int)delta.z);
-				}
-        	}
-        	else
-        	{
-        		printf("No hands detected\n");
-			}
-
+                if (numHands > 1) {
+                    const LEAP_HAND* hand2 = &frame->pHands[1]; // 2nd hand
+                    float x_h2 = hand2->palm.position.x;
+                    float y_h2 = hand2->palm.position.y;
+                    float z_h2 = hand2->palm.position.z;
+                    printf(" | Palm Hand 2: x=%.0f y=%.0f z=%.0f\n", x_h2, y_h2, z_h2);
+                }
+            } else {
+                printf("No hands detected\n");
+            }
         }
     }
     printf("No Connection");
     LeapCloseConnection(connection);
     LeapDestroyConnection(connection);
     //close the pipe
-    //closePipe(pipe);
+    closePipe(pipe);
 //delete pipe from files not needed in windows
-//#ifdef __linux__
-    //remove(pipename);
-//#endif
-    //free(pipename);
+#ifdef __linux__
+    remove(pipename);
+#endif
+    free(pipename);
     return 0;
 }
