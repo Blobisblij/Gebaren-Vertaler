@@ -1,3 +1,0 @@
-C:/Users/Gebruiker/Desktop/CLeap/Gebaren-Vertaler/MakeJSON/cmake-build-debug/CMakeFiles/MakeJSON.dir
-C:/Users/Gebruiker/Desktop/CLeap/Gebaren-Vertaler/MakeJSON/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Gebruiker/Desktop/CLeap/Gebaren-Vertaler/MakeJSON/cmake-build-debug/CMakeFiles/rebuild_cache.dir
