@@ -34,9 +34,10 @@ int main() {
     strcpy(pipename, "\\\\.\\pipe\\Leapcam");
     HANDLE pipe = createPipe(pipename);
 #endif
-	int *XYZcoord = createArrayInt(3*sizeof(int));
-	int *deltaarray = createArrayInt(5*sizeof(XYZcoord));
+	//int XYZcoord[3];
+	//int *deltaarray = createArrayInt(5*sizeof(XYZcoord));
 
+	int *deltaarray = createArrayInt(15*sizeof(int));
     LEAP_CONNECTION connection = NULL;
     eLeapRS result = LeapCreateConnection(NULL, &connection);
     if (result != eLeapRS_Success) return 1;
@@ -102,30 +103,46 @@ int main() {
 				//ints toevoegen aan array
         		//0
 
-        		XYZcoord[0] = thumb_delta_x;
+        		/*XYZcoord[0] = thumb_delta_x;
         		XYZcoord[1] = thumb_delta_y;
-        		XYZcoord[2] = thumb_delta_z;
-        		deltaarray[0] = *XYZcoord;
+        		XYZcoord[2] = thumb_delta_z;*/
+        		deltaarray[0] = thumb_delta_x;
+        		deltaarray[1] = thumb_delta_y;
+        		deltaarray[2] = thumb_delta_z;
         		//1
-        		XYZcoord[0] = index_delta_x;
+        		/*XYZcoord[0] = index_delta_x;
         		XYZcoord[1] = index_delta_y;
-        		XYZcoord[2] = index_delta_z;
-        		deltaarray[1] = *XYZcoord;
+        		XYZcoord[2] = index_delta_z;*/
+        		deltaarray[3] = index_delta_x;
+        		deltaarray[4] = index_delta_y;
+        		deltaarray[5] = index_delta_z;
 				//2
-        		XYZcoord[0] = middle_delta_x;
+        		/*XYZcoord[0] = middle_delta_x;
         		XYZcoord[1] = middle_delta_y;
-        		XYZcoord[2] = middle_delta_z;
-        		deltaarray[2] = *XYZcoord;
+        		XYZcoord[2] = middle_delta_z;*/
+        		deltaarray[6] = middle_delta_x;
+        		deltaarray[7] = middle_delta_y;
+        		deltaarray[8] = middle_delta_z;
 				//3
-        		XYZcoord[0] = ring_delta_x;
+        		/*XYZcoord[0] = ring_delta_x;
         		XYZcoord[1] = ring_delta_y;
-        		XYZcoord[2] = ring_delta_z;
-        		deltaarray[3] = *XYZcoord;
+        		XYZcoord[2] = ring_delta_z;*/
+        		deltaarray[9] = ring_delta_x;
+        		deltaarray[10] = ring_delta_y;
+        		deltaarray[11] = ring_delta_z;
 				//4
-        		XYZcoord[0] = pinky_delta_x;
+        		/*XYZcoord[0] = pinky_delta_x;
         		XYZcoord[1] = pinky_delta_y;
-        		XYZcoord[2] = pinky_delta_z;
-        		deltaarray[4] = *XYZcoord;
+        		XYZcoord[2] = pinky_delta_z;*/
+        		deltaarray[12] = pinky_delta_x;
+        		deltaarray[13] = pinky_delta_y;
+        		deltaarray[14] = pinky_delta_z;
+
+        		int i = 0;
+        		while (i <= 14) {
+        			printf("%d\t", deltaarray[i]);
+        			i ++;
+        		}
 
         		writePipe(pipe, deltaarray);
 				//for (int i = 0; i < 5; i++)
@@ -151,10 +168,10 @@ int main() {
     LeapCloseConnection(connection);
     LeapDestroyConnection(connection);
     //close the pipe
-    closePipe(pipe);
+    //closePipe(pipe);
 //delete pipe from files not needed in windows
 #ifdef __linux__
-    remove(pipename);
+    //remove(pipename);
 #endif
 	free(deltaarray);
 	free(pipename);
