@@ -34,8 +34,8 @@ int main() {
     strcpy(pipename, "\\\\.\\pipe\\Leapcam");
     HANDLE pipe = createPipe(pipename);
 #endif
-
-	int *deltaarray = createArrayInt(15*sizeof(int));
+	int *XYZcoord = createArrayInt(3*sizeof(int));
+	int *deltaarray = createArrayInt(5*sizeof(XYZcoord));
 
     LEAP_CONNECTION connection = NULL;
     eLeapRS result = LeapCreateConnection(NULL, &connection);
@@ -100,26 +100,34 @@ int main() {
         		int pinky_delta_z = (int)pinky_tip.z - (int)palm.z;
 
 				//ints toevoegen aan array
-        		deltaarray[0] = thumb_delta_x;
-        		deltaarray[1] = thumb_delta_y;
-        		deltaarray[2] = thumb_delta_z;
+        		//0
 
-        		deltaarray[3] = index_delta_x;
-        		deltaarray[4] = index_delta_y;
-        		deltaarray[5] = index_delta_z;
+        		XYZcoord[0] = thumb_delta_x;
+        		XYZcoord[1] = thumb_delta_y;
+        		XYZcoord[2] = thumb_delta_z;
+        		deltaarray[0] = *XYZcoord;
+        		//1
+        		XYZcoord[0] = index_delta_x;
+        		XYZcoord[1] = index_delta_y;
+        		XYZcoord[2] = index_delta_z;
+        		deltaarray[1] = *XYZcoord;
+				//2
+        		XYZcoord[0] = middle_delta_x;
+        		XYZcoord[1] = middle_delta_y;
+        		XYZcoord[2] = middle_delta_z;
+        		deltaarray[2] = *XYZcoord;
+				//3
+        		XYZcoord[0] = ring_delta_x;
+        		XYZcoord[1] = ring_delta_y;
+        		XYZcoord[2] = ring_delta_z;
+        		deltaarray[3] = *XYZcoord;
+				//4
+        		XYZcoord[0] = pinky_delta_x;
+        		XYZcoord[1] = pinky_delta_y;
+        		XYZcoord[2] = pinky_delta_z;
+        		deltaarray[4] = *XYZcoord;
 
-        		deltaarray[6] = middle_delta_x;
-        		deltaarray[7] = middle_delta_y;
-        		deltaarray[8] = middle_delta_z;
-
-        		deltaarray[9] = ring_delta_x;
-        		deltaarray[10] = ring_delta_y;
-        		deltaarray[11] = ring_delta_z;
-
-        		deltaarray[12] = pinky_delta_x;
-        		deltaarray[13] = pinky_delta_y;
-        		deltaarray[14] = pinky_delta_z;
-
+        		writePipe(pipe, deltaarray);
 				//for (int i = 0; i < 5; i++)
 				//{
 				//    LEAP_DIGIT digit = hand1->digits[i];
@@ -148,6 +156,7 @@ int main() {
 #ifdef __linux__
     remove(pipename);
 #endif
-    free(pipename);
+	free(deltaarray);
+	free(pipename);
     return 0;
 }

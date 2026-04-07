@@ -32,8 +32,8 @@ char *readPipe(int pipe, int size) {
     return readOutput;
 }
 
-int writePipe(int pipe, char *message) {
-    int succes = write(pipe,message,strlen(message));
+int writePipe(int pipe, int *message) {
+    int succes = write(pipe,message,sizeof(message));
 
     if (!succes) {
         printf("failed to write to pipe");
