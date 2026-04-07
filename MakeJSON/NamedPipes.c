@@ -88,7 +88,7 @@ HANDLE createPipe(char * pipename) {
     return hPipe;
 }
 //schrijf naar pipe voor windows
-int writePipe(HANDLE pipename, char *message) {
+int writePipe(HANDLE pipename, int *message) {
     // schrijf naar de pipe
     DWORD numberOfBytesWritten;
     printf("%s\n", message);
