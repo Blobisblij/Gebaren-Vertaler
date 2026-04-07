@@ -138,13 +138,14 @@ int main() {
         		deltaarray[13] = pinky_delta_y;
         		deltaarray[14] = pinky_delta_z;
 
+        		writePipe(pipe, deltaarray);
+
         		int i = 0;
         		while (i <= 14) {
         			printf("%d\t", deltaarray[i]);
         			i ++;
         		}
 
-        		writePipe(pipe, deltaarray);
 				//for (int i = 0; i < 5; i++)
 				//{
 				//    LEAP_DIGIT digit = hand1->digits[i];
