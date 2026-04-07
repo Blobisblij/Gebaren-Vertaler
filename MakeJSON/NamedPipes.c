@@ -32,8 +32,11 @@ char *readPipe(int pipe, int size) {
     return readOutput;
 }
 
-int writePipe(int pipe, int *message) {
-    int succes = write(pipe,message,sizeof(message));
+int writePipe(int pipe, int *message)
+{
+    //magic number!!!
+    int succes = write(pipe,message,60);
+
 
     if (!succes) {
         printf("failed to write to pipe");
@@ -92,7 +95,8 @@ int writePipe(HANDLE pipename, int *message) {
     // schrijf naar de pipe
     DWORD numberOfBytesWritten;
     printf("%s\n", message);
-    BOOL file = WriteFile(pipename, message, strlen(message),&numberOfBytesWritten, NULL);
+    //ook magic number!!
+    BOOL file = WriteFile(pipename, message, 60,&numberOfBytesWritten, NULL);
 
     if (!file) {
         printf("Error writing to pipe: %ld\n", GetLastError());
