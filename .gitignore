@@ -41,6 +41,10 @@
 *.su
 *.idb
 *.pdb
+.cmake/
+CMakeFiles/
+*.ninja
+*.json
 
 # Kernel Module Compile Results
 *.mod*
