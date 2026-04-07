@@ -28,7 +28,7 @@ with open(pipe_path, "rb") as pipe:
    lijstout = [none]
    while lijstout != []:
       lijstout = []
-      intdata = pipe.read(56)
+      intdata = pipe.read(60)
       for byte in intdata:
          lijst.append(byte)
          if len(lijst) == 4:
