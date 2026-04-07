@@ -1,0 +1,26 @@
+Index: NGT_TRANSLATOR.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#!/venv/bin/python3\nimport os\n\n\nexec(open(\"./MakeJSON/cmake-build-debug/MakeJSON\"))\npipe_path = \"/tmp/Leapcam\"\nwith open(pipe_path, \"r\") as pipe:\n   data = pipe.read()\n   print(data)\n\n
+===================================================================
+diff --git a/NGT_TRANSLATOR.py b/NGT_TRANSLATOR.py
+--- a/NGT_TRANSLATOR.py	(revision 2eb894094eb6a1887c0cd597c48533fce1fd63f0)
++++ b/NGT_TRANSLATOR.py	(date 1774860433096)
+@@ -1,10 +1,16 @@
+ #!/venv/bin/python3
++import LoadData
+ import os
++import numpy as np
++import torch
++import torchvision
+ 
+ 
+ exec(open("./MakeJSON/cmake-build-debug/MakeJSON"))
+ pipe_path = "/tmp/Leapcam"
++moddelPath = "/moddeldata"
++moddelData = LoadData(moddelPath)
+ with open(pipe_path, "r") as pipe:
+    data = pipe.read()
+-   print(data)
++
+ 
