@@ -41,10 +41,16 @@
 *.su
 *.idb
 *.pdb
+*.cmake
+CMakeCache.txt
 .cmake/
 CMakeFiles/
 *.ninja
 *.json
+Testing/
+*.ninja_deps
+*.ninja_log
+
 
 # Kernel Module Compile Results
 *.mod*
