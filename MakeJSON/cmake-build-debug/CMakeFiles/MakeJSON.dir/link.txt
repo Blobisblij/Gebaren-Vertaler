@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2025.3.3\bin\cmake\win\x64\bin\cmake.exe" -E rm -f CMakeFiles\MakeJSON.dir/objects.a
-C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\ar.exe qc CMakeFiles\MakeJSON.dir/objects.a @CMakeFiles\MakeJSON.dir\objects1.rsp
-C:\PROGRA~1\JETBRA~1\CLION2~1.3\bin\mingw\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\MakeJSON.dir/objects.a -Wl,--no-whole-archive -o MakeJSON.exe -Wl,--out-implib,libMakeJSON.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MakeJSON.dir\linkLibs.rsp
