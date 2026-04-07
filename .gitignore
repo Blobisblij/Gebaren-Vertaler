@@ -42,7 +42,6 @@
 *.idb
 *.pdb
 *.cmake
-CMakeCache.txt
 .cmake/
 CMakeFiles/
 *.ninja
