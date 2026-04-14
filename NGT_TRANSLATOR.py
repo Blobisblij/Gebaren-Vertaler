@@ -21,19 +21,19 @@ def Program_runnen(listgoingout):
        lijst =[]
        lijstout = None
        totalinputdata = 0
-       maxinputdata = 100
+       maxinputdata = 10000000
 
        while lijstout != []:
-          lijstout = []
-          intdata = pipe.read(60)
-          for byte in intdata:
-             lijst.append(byte)
-             if len(lijst) == 4:
-                lijstout.append(int.from_bytes(lijst,byteorder ='little' , signed=True))
-                lijst = []
-                print(lijstout)
-                ListGoingOut = tuple(lijstout)
-                totalinputdata = totalinputdata + 1
+              lijstout = []
+              intdata = pipe.read(60)
+              for byte in intdata:
+                 lijst.append(byte)
+                 if len(lijst) == 4:
+                    lijstout.append(int.from_bytes(lijst,byteorder ='little' , signed=True))
+                    lijst = []
+                    print(lijstout)
+                    ListGoingOut = tuple(lijstout)
+                    totalinputdata = totalinputdata + 1
 
 
 

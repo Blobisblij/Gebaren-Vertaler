@@ -12,29 +12,62 @@ import NGT_TRANSLATOR
 #plek 3 is gemiddelde
 #plek vier is de hoeveelheid getallen in het huidige gemiddelde
 #plek 5 is het totaal
-#
-#
-#
-def writingToJson(list1, list2, list3, list4, list5):
-    print(list1 + list2 + list3 + list4 + list5)
-def main():
+if platform.system() == "Windows":
+    pipe_path = "\\\\.\\pipe\\Leapcam"
 
-    Input = input("which sign is it")
-    lijstout = []
-    NGT_TRANSLATOR.Program_runnen(lijstout)
-    List1 = [] * 5
-    List2 = [] * 5
-    List3 = [] * 5
-    List4 = [] * 5
-    List5 = [] * 5
+if platform.system() == "Linux":
+    pipe_path = "/tmp/Leapcam"
+#
+#
+def loopen():
+    with open(pipe_path, "rb") as pipe:
+        lijst = []
+        lijstout = None
+        while lijstout != []:
+            lijstout = []
+            intdata = pipe.read(60)
+            for byte in intdata:
+                lijst.append(byte)
+                if len(lijst) == 4:
+                    lijstout.append(int.from_bytes(lijst, byteorder='little', signed=True))
+            lijst = []
+            main(lijstout)
+        intdata = None
+def main(Hoofdlijst):
 
-    for tuple in lijstout:
-        grouping(tuple[0], List1)
-        grouping(tuple[1], List1)
-        grouping(tuple[2], List1)
-        grouping(tuple[3], List1)
-        grouping(tuple[4], List1)
-    writingToJson(List1, List2, List3, List4, List5)
+    List1A = [] * 5
+    List1B = [] * 5
+    List1C = [] * 5
+    List2A = [] * 5
+    List2B = [] * 5
+    List2C = [] * 5
+    List3A = [] * 5
+    List3B = [] * 5
+    List3C = [] * 5
+    List4A = [] * 5
+    List4B = [] * 5
+    List4C = [] * 5
+    List5A = [] * 5
+    List5B = [] * 5
+    List5C = [] * 5
+
+    for tuple in Hoofdlijst:
+        grouping(tuple[0], List1A)
+        grouping(tuple[1], List1B)
+        grouping(tuple[2], List1C)
+        grouping(tuple[3], List2A)
+        grouping(tuple[4], List2B)
+        grouping(tuple[5], List2C)
+        grouping(tuple[6], List3A)
+        grouping(tuple[7], List3B)
+        grouping(tuple[8], List3C)
+        grouping(tuple[9], List4A)
+        grouping(tuple[10], List4B)
+        grouping(tuple[11], List4C)
+        grouping(tuple[12], List5A)
+        grouping(tuple[13], List5B)
+        grouping(tuple[14], List5C)
+
 
 def grouping (input, list):
     if list == None:
@@ -71,8 +104,4 @@ def krijgHoogste(input, list):
         if input > list[2]:
             list[2] = input
 
-
-
-def writingToJson(list1, list2, list3, list4, list5):
-    print(list1 + list2 + list3 + list4 + list5)
-main()
+loopen()
