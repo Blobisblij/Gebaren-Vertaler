@@ -15,6 +15,8 @@ import NGT_TRANSLATOR
 #
 #
 #
+def writingToJson(list1, list2, list3, list4, list5):
+    print(list1 + list2 + list3 + list4 + list5)
 def main():
 
     Input = input("which sign is it")
@@ -32,6 +34,7 @@ def main():
         grouping(tuple[2], List1)
         grouping(tuple[3], List1)
         grouping(tuple[4], List1)
+    writingToJson(List1, List2, List3, List4, List5)
 
 def grouping (input, list):
     if list == None:
@@ -68,3 +71,8 @@ def krijgHoogste(input, list):
         if input > list[2]:
             list[2] = input
 
+
+
+def writingToJson(list1, list2, list3, list4, list5):
+    print(list1 + list2 + list3 + list4 + list5)
+main()

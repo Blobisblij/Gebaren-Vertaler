@@ -22,6 +22,7 @@ def Program_runnen(listgoingout):
        lijstout = None
        totalinputdata = 0
        maxinputdata = 100
+
        while lijstout != []:
           lijstout = []
           intdata = pipe.read(60)
