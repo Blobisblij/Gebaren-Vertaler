@@ -8,7 +8,7 @@ HANDLE createPipe(char * pipename);
 //returnt een array met de geleze info
 char *readPipe(HANDLE pipename, int size);
 //schrijft info naar de pipe
-int writePipe(HANDLE pipename, char *message);
+int writePipe(HANDLE pipename, int *message);
 //opent een bestaande pipe
 HANDLE openPipe(char * pipename);
 //sluit een bestaande pipe
