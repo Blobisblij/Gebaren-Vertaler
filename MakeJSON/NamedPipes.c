@@ -86,7 +86,18 @@ HANDLE createPipe(char * pipename) {
         printf("Error creating named pipe: %ld\n", GetLastError());
         return 0;
     }
+    printf("Waiting for client to connect...\n");
 
+    BOOL connected = ConnectNamedPipe(hPipe, NULL) ?
+                     TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+
+    if (!connected) {
+        printf("Failed to connect pipe: %ld\n", GetLastError());
+        CloseHandle(hPipe);
+        return 0;
+    }
+
+    printf("Client connected!\n");
     printf("Named pipe created successfully.\n");
     return hPipe;
 }
@@ -94,7 +105,10 @@ HANDLE createPipe(char * pipename) {
 int writePipe(HANDLE pipename, int *message) {
     // schrijf naar de pipe
     DWORD numberOfBytesWritten;
-    printf("%s\n", message);
+    for (int i = 0; i < 15; i++) {
+        printf("%d ", message[i]);
+    }
+    printf("\n");
     //ook magic number!!
     BOOL file = WriteFile(pipename, message, 60,&numberOfBytesWritten, NULL);
 

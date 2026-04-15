@@ -8,7 +8,6 @@ from torch import nn
 from torchvision.transforms import ToTensor
 from handmodel import HandNN, train, test
 from DatasetMaker import GestureDataset ,save_sample
-save_sample([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"niks")
 from torch.utils.data import DataLoader, random_split
 from DatasetMaker import Dataset
 #setting os spesific var's
@@ -58,7 +57,7 @@ if sys.argv[1] == "train":
 
         win32file.CloseHandle(pipe)  # close after all samples collecte
         dataset = GestureDataset("gesture_dataset.csv")
-        num_gestures = len({name: i for i, name in enumerate(dataset['label'].unique())})
+        num_gestures = len(dataset.label_map)
         # laad het model met correcte params
         model = HandNN(num_gestures).to(device)
         optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
