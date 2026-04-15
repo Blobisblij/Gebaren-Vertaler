@@ -6,7 +6,7 @@ import torch
 import pandas as pd
 from torch import nn
 from torchvision.transforms import ToTensor
-from handmodel import HandNN
+from handmodel import HandNN, train, test
 from DatasetMaker import GestureDataset ,save_sample
 save_sample([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"niks")
 from torch.utils.data import DataLoader, random_split
@@ -62,16 +62,18 @@ if (sys.argv[1] == "train"):
         test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
 
-        # epochs = 15
-        # for epoch in range(epochs):
-        #     train(train_dataloader,model,loss_fn)
-        #     torch.save(model, 'handmodel.pth')
-        # else:
-        #     epochs = 15
-        #     for epoch in range(epochs):
-        #         train(train_dataloader,model,loss_fn)
-        #         torch.save(model, 'handmodel.pth')
-        #
+        epochs = 15
+        for epoch in range(epochs):
+            train(train_loader,model,loss_fn,optimizer)
+            test(test_loader,model,loss_fn)
+            torch.save(model, 'handmodel.pth')
+        else:
+            epochs = 15
+            for epoch in range(epochs):
+                train(train_loader,model,loss_fn,optimizer)
+                test(test_loader,model,loss_fn)
+                torch.save(model, 'handmodel.pth')
+
 
 
 #starts the datastream from the leap cam and sends the input to the moddel
