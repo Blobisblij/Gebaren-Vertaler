@@ -37,9 +37,4 @@ class GestureDataset(Dataset):
     def __getitem__(self, index):
         return self.features[index], self.labels[index]
 
-    dataset = GestureDataset("gesture_dataset.csv")
-    dataloader = Dataloader(dataset, batch_size=32, shuffle=True)
 
-    for features, label in dataloader:
-        predictions = model(features)
-        loss =loss(predictions, label)
