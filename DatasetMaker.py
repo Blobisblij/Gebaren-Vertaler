@@ -4,7 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 from torchvision.io import decode_image
 CSV_file = "gesture_dataset.csv"
-import Training_program
+
 def save_sample(features, label):
 
     rij = features + [label]
@@ -20,7 +20,7 @@ def save_sample(features, label):
 
 class GestureDataset(Dataset):
 
-    def __init__(self, csv_file, root_dir, transform=None):
+    def __init__(self, csv_file):
         df = pd.read_csv(csv_file)
         self.label_map = {name:i for i, name in enumerate(df['label'].unique())} #zorgt ervoor dat elke dubble label weg gaat en elke label een nummer krijgt
         self.features = torch.tensor(df.drop("label", axis=1).values, dtype=torch.float32) #verwijderd alle labels
@@ -32,4 +32,7 @@ class GestureDataset(Dataset):
         return self.features[index], self.labels[index]
 
 
-dataset = GestureDataset("gesture_dataset.csv")
+if os.path.exists(CSV_file) and os.path.getsize(CSV_file) > 0:
+    dataset = GestureDataset(CSV_file)
+else:
+    raise ValueError("Dataset missing or empty")
