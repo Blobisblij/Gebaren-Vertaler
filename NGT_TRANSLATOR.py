@@ -3,6 +3,7 @@ import platform
 import csv, os
 import sys
 import torch
+import pandas as pd
 from torch import nn
 from torchvision.transforms import ToTensor
 from handmodel import HandNN
@@ -20,13 +21,14 @@ if platform.system() == "Linux":
 #load model
 device = "cpu"
 print(f"Using {device} device")
-
-num_gestures = 10
+#selecteerd alle unike labels uit de csv
+df = pd.read_csv("gesture_dataset.csv")
+num_gestures = len({name:i for i, name in enumerate(df['label'].unique())})
+#laad het model met correcte params
 model = HandNN(num_gestures).to(device)
 print(model)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
-
 
 #collects data to train the model with
 if (sys.argv[1] == "train"):
