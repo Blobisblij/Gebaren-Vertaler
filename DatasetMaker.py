@@ -7,14 +7,43 @@ CSV_file = "gesture_dataset.csv"
 
 def save_sample(features, label):
 
-    rij = features + [label]
-    write_header = not os.path.exists(CSV_file) # geeft aan of ja er is een header of nee er is een header
+    rij = {"1":features[0],
+           "2":features[1],
+           "3":features[2],
+           "4":features[3],
+           "5":features[4],
+           "6":features[5],
+           "7":features[6],
+           "8":features[7],
+           "9":features[8],
+           "10":features[9],
+           "11":features[10],
+           "12":features[11],
+           "13":features[12],
+           "14":features[13],
+           "15":features[14],
+           "label": label}
+    #write_header = not os.path.exists(CSV_file) # geeft aan of ja er is een header of nee er is een header
 
     with open(CSV_file, "a", newline="") as csvfile: #opent de csv file en zorg dat er geen lege lijnen zijn
-        writer = csv.writer(csvfile)
-        if write_header: # kijkt of er een header is
-            header = [f"f{i}" for i in range(15)] + ["label"]
-            writer.writerow(header)
+        fieldnames = ['1',
+                      '2',
+                      '3',
+                      '4',
+                      '5',
+                      '6',
+                      '7',
+                      '8',
+                      '9',
+                      '10',
+                      '11',
+                      '12',
+                      '13',
+                      '14',
+                      '15',
+                      'label'
+                      ]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writerow(rij) #schrijft de rij naar csv
 
 
