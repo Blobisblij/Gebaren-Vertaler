@@ -5,21 +5,15 @@ import pandas as pd
 from torchvision.io import decode_image
 CSV_file = "gesture_dataset.csv"
 import Training_program
-def save_sample(List1A, List1B, List1C, List2A, List2B, List2C, List3A, List3B, List3C, List4A, List4B, List4C, List5A, List5B, List5C, label):
-    features = []
-    for item in[List1A, List1B, List1C,
-                List2A, List2B, List2C,
-                List3A, List3B, List3C,
-                List4A, List4B, List4C,
-                List5A, List5B, List5C,]:
-        features.extend([item[1],item[2], item[3]]) #stops laagste hoogste en gemiddelde van elke lijst in 1 lijst van 45 nummers
+def save_sample(features, label):
+
     rij = features + [label]
     write_header = not os.path.exists(CSV_file) # geeft aan of ja er is een header of nee er is een header
 
     with open(CSV_file, "a", newline="") as csvfile: #opent de csv file en zorg dat er geen lege lijnen zijn
         writer = csv.writer(csvfile)
         if write_header: # kijkt of er een header is
-            header = [f"f{i}" for i in range(45)] + ["label"]
+            header = [f"f{i}" for i in range(15)] + ["label"]
             writer.writerow(header)
         writer.writerow(rij) #schrijft de rij naar csv
 

@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 from model.handmodel import NeuralNetwork, train, train_dataloader
+import DatasetMaker
 
 if platform.system() == "Windows":
     pipe_path = "\\\\.\\pipe\\Leapcam"
@@ -40,7 +41,7 @@ if (sys.argv[0] == "train"):
                     lijstout.append(int.from_bytes(lijst,byteorder ='little' , signed=True))
                     lijst = []
                     print(lijstout)
-                    ListGoingOut = tuple(lijstout)
+                    DatasetMaker.safe_sample(lijstout, wordorlettertotrain)
                     totalinputdata = totalinputdata + 1
         epochs = 15
         for epoch in range(epochs):
