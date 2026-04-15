@@ -38,3 +38,4 @@ class GestureDataset(Dataset):
         return self.features[index], self.labels[index]
 
 
+dataset = GestureDataset("gesture_dataset.csv")
