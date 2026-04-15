@@ -7,6 +7,7 @@ from torch import nn
 from torchvision.transforms import ToTensor
 from handmodel import HandNN
 from DatasetMaker import GestureDataset ,save_sample
+save_sample([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"niks")
 from torch.utils.data import DataLoader, random_split
 from DatasetMaker import Dataset
 #setting os spesific var's
@@ -19,6 +20,7 @@ if platform.system() == "Linux":
 #load model
 device = "cpu"
 print(f"Using {device} device")
+
 num_gestures = 10
 model = HandNN(num_gestures).to(device)
 print(model)

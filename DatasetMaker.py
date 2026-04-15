@@ -14,7 +14,7 @@ def save_sample(features, label):
         writer = csv.writer(csvfile)
         if write_header: # kijkt of er een header is
             header = [f"f{i}" for i in range(15)] + ["label"]
-        writer.writerow(header)
+            writer.writerow(header)
         writer.writerow(rij) #schrijft de rij naar csv
 
 
@@ -30,7 +30,6 @@ class GestureDataset(Dataset):
         return len(self.labels)
     def __getitem__(self, index):
         return self.features[index], self.labels[index]
-
 
 if os.path.exists(CSV_file) and os.path.getsize(CSV_file) > 0:
     dataset = GestureDataset(CSV_file)
