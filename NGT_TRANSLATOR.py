@@ -2,28 +2,28 @@
 import platform
 import subprocess as sp
 import platform
+import sys
 import os
 import time
+import torch
 
-#from cv2.datasets import none
-#from mpmath.libmp import to_int
-#from sympy import true
-#from urllib3.http2.probe import acquire_and_get
-def Program_runnen(listgoingout):
-    if platform.system() == "Windows":
-       pipe_path = "\\\\.\\pipe\\Leapcam"
+if platform.system() == "Windows":
+    pipe_path = "\\\\.\\pipe\\Leapcam"
 
+if platform.system() == "Linux":
+    pipe_path = "/tmp/Leapcam"
+#collects data to train the moddel with
+if (sys.argv[0] == "train"):
+    if (sys.argv[1] != None):
+        WordOrLetterToTrain = sys.argv[1]
 
-    if platform.system() == "Linux":
-       pipe_path = "/tmp/Leapcam"
+        with open(pipe_path, "rb") as pipe:
+            lijst =[]
+            lijstout = None
+            totalinputdata = 0
+            maxinputdata = 10000000
 
-    with open(pipe_path, "rb") as pipe:
-       lijst =[]
-       lijstout = None
-       totalinputdata = 0
-       maxinputdata = 10000000
-
-       while lijstout != []:
+            while lijstout != []:
               lijstout = []
               intdata = pipe.read(60)
               for byte in intdata:
@@ -35,7 +35,19 @@ def Program_runnen(listgoingout):
                     ListGoingOut = tuple(lijstout)
                     totalinputdata = totalinputdata + 1
 
-
+#starts the datastream from the leap cam and sends the input to the moddel
+if (sys.argv[0] == "run"):
+    with open(pipe_path, "rb") as pipe:
+        lijst =[]
+        lijstout = None
+        while lijstout != []:
+            lijstout = []
+            intdata = pipe.read(60)
+            for byte in intdata:
+                lijst.append(byte)
+                if len(lijst) == 4:
+                    lijstout.append(int.from_bytes(lijst,byteorder ='little' , signed=True))
+                    lijst = []
 
 
 
