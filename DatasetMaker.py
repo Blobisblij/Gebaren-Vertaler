@@ -14,7 +14,7 @@ def save_sample(features, label):
         writer = csv.writer(csvfile)
         if write_header: # kijkt of er een header is
             header = [f"f{i}" for i in range(15)] + ["label"]
-            writer.writerow(header)
+        writer.writerow(header)
         writer.writerow(rij) #schrijft de rij naar csv
 
 

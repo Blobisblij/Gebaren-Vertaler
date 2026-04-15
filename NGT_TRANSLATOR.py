@@ -1,29 +1,30 @@
 #!/venv/bin/python3
 import platform
+import csv, os
 import sys
 import torch
 from torch import nn
 from torchvision.transforms import ToTensor
 from handmodel import HandNN
-from handmodel import train
-from handmodel import runtraining
 from DatasetMaker import GestureDataset ,save_sample
-from torch.utils.data import Dataset, DataLoader
 from torch.utils.data import DataLoader, random_split
-from DatasetMaker import dataset
+from DatasetMaker import Dataset
+#setting os spesific var's
 if platform.system() == "Windows":
     pipe_path = "\\\\.\\pipe\\Leapcam"
 
 if platform.system() == "Linux":
     pipe_path = "/tmp/Leapcam"
+
 #load model
 device = "cpu"
 print(f"Using {device} device")
-model = HandNN().to(device)
+num_gestures = 10
+model = HandNN(num_gestures).to(device)
 print(model)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
-num_gestures = len(dataset.label_map)
+
 
 #collects data to train the model with
 if (sys.argv[1] == "train"):
@@ -56,7 +57,7 @@ if (sys.argv[1] == "train"):
         train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
         test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
-        runtraining(50, train_loader, test_loader, model, loss_fn, optimizer)
+
         # epochs = 15
         # for epoch in range(epochs):
         #     train(train_dataloader,model,loss_fn)
