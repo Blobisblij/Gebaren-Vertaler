@@ -25,13 +25,12 @@ optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 if (sys.argv[0] == "train"):
     if (sys.argv[1] != None):
         WordOrLetterToTrain = sys.argv[1]
-
         with open(pipe_path, "rb") as pipe:
             lijst =[]
             lijstout = None
             totalinputdata = 0
-            maxinputdata = 10000000
-
+            maxinputdata = 120
+        while(totalinputdata != maxinputdata):
             while lijstout != []:
               lijstout = []
               intdata = pipe.read(60)
@@ -43,14 +42,20 @@ if (sys.argv[0] == "train"):
                     print(lijstout)
                     ListGoingOut = tuple(lijstout)
                     totalinputdata = totalinputdata + 1
+        epochs = 15
+        for epoch in range(epochs):
+            train(train_dataloader,model,loss_fn)
+            torch.save(model, 'handmodel.pth')
+        else:
+            epochs = 15
+            for epoch in range(epochs):
+                train(train_dataloader,model,loss_fn)
+                torch.save(model, 'handmodel.pth')
+
 
 #starts the datastream from the leap cam and sends the input to the moddel
 if (sys.argv[0] == "run"):
-    NeuralNetwork.train()
-    epochs = 10
-    for epoch in range(epochs):
-        train(train_dataloader,model,loss_fn)
-
+    model = torch.load('handmodel.pth', weights_only=False)
     with open(pipe_path, "rb") as pipe:
         lijst =[]
         lijstout = None
@@ -65,5 +70,7 @@ if (sys.argv[0] == "run"):
                     TensorLijstOut = ToTensor(lijstout)
                     with torch.no_grad():
                         prediction = NeuralNetwork(TensorLijstOut)
-                        print(prediction)
+                        if lastprediction != prediction:
+                            print(prediction)
+                            lastprediction = prediction
                     lijst = []
