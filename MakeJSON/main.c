@@ -161,6 +161,7 @@ int main() {
         	}
         	else
         	{
+        		writePipe(pipe, deltaarray);
         		printf("No hands detected\n");
 			}
         }
