@@ -1,3 +1,4 @@
+
 #ifdef _WIN64
 #include <windows.h>
 #endif
@@ -10,7 +11,6 @@
 #include <unistd.h>
 #include "NamedPipes.h"
 #include "memoryalocation.h"
-
 // wrapper voor windows en linux named pipes zodat de aplicatie cross platform is
 
 
@@ -86,23 +86,41 @@ HANDLE createPipe(char * pipename) {
         printf("Error creating named pipe: %ld\n", GetLastError());
         return 0;
     }
+    printf("Waiting for client to connect...\n");
 
+    BOOL connected = ConnectNamedPipe(hPipe, NULL) ?
+                     TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+
+    if (!connected) {
+        printf("Failed to connect pipe: %ld\n", GetLastError());
+        CloseHandle(hPipe);
+        return 0;
+    }
+
+    printf("Client connected!\n");
     printf("Named pipe created successfully.\n");
     return hPipe;
 }
 //schrijf naar pipe voor windows
-int writePipe(HANDLE pipename, int *message) {
-    // schrijf naar de pipe
-    DWORD numberOfBytesWritten;
-    printf("%s\n", message);
-    //ook magic number!!
-    BOOL file = WriteFile(pipename, message, 60,&numberOfBytesWritten, NULL);
+int writePipe(HANDLE pipe, int *message) {
+    // schrijf naar de pipeDWORD written;
+    DWORD written;
 
-    if (!file) {
-        printf("Error writing to pipe: %ld\n", GetLastError());
+    BOOL ok = WriteFile(pipe, message, 15 * sizeof(int), &written, NULL);
+
+    if (!ok) {
+        DWORD err = GetLastError();
+
+        if (err == ERROR_BROKEN_PIPE) {
+            return -1;   // Python disconnected
+        }
+
+        printf("Write error: %lu\n", err);
         return 1;
     }
+
     return 0;
+
 }
 
 char *readPipe(HANDLE pipename, int size) {

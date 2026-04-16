@@ -161,6 +161,7 @@ int main() {
         	}
         	else
         	{
+        		writePipe(pipe, deltaarray);
         		printf("No hands detected\n");
 			}
         }
@@ -168,9 +169,8 @@ int main() {
     printf("No Connection");
     LeapCloseConnection(connection);
     LeapDestroyConnection(connection);
-	
-//close the pipe
-    closePipe(pipe);
+    //close the pipe
+    //closePipe(pipe);
 //delete pipe from files not needed in windows
 #ifdef __linux__
     //remove(pipename);
