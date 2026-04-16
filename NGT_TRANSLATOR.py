@@ -12,13 +12,14 @@ from DatasetMaker import GestureDataset ,save_sample
 from torch.utils.data import DataLoader, random_split
 from DatasetMaker import Dataset
 
-import win32file
+
 
 from named_pipes import openpipe, readpipe
 
 #setting os spesific var's
 if platform.system() == "Windows":
     #pipe_path = "\\\\.\\pipe\\Leapcam"
+    import win32file
     pipe_path = r"\\.\pipe\Leapcam"
 
 if platform.system() == "Linux":

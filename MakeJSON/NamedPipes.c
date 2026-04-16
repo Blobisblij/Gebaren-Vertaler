@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include "NamedPipes.h"
 #include "memoryalocation.h"
-#include <windows.h>
 // wrapper voor windows en linux named pipes zodat de aplicatie cross platform is
 
 
