@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include "NamedPipes.h"
 #include "memoryalocation.h"
-
+#include <windows.h>
 // wrapper voor windows en linux named pipes zodat de aplicatie cross platform is
 
 
@@ -102,21 +102,25 @@ HANDLE createPipe(char * pipename) {
     return hPipe;
 }
 //schrijf naar pipe voor windows
-int writePipe(HANDLE pipename, int *message) {
-    // schrijf naar de pipe
-    DWORD numberOfBytesWritten;
-    for (int i = 0; i < 15; i++) {
-        printf("%d ", message[i]);
-    }
-    printf("\n");
-    //ook magic number!!
-    BOOL file = WriteFile(pipename, message, 60,&numberOfBytesWritten, NULL);
+int writePipe(HANDLE pipe, int *message) {
+    // schrijf naar de pipeDWORD written;
+    DWORD written;
 
-    if (!file) {
-        printf("Error writing to pipe: %ld\n", GetLastError());
+    BOOL ok = WriteFile(pipe, message, 15 * sizeof(int), &written, NULL);
+
+    if (!ok) {
+        DWORD err = GetLastError();
+
+        if (err == ERROR_BROKEN_PIPE) {
+            return -1;   // Python disconnected
+        }
+
+        printf("Write error: %lu\n", err);
         return 1;
     }
+
     return 0;
+
 }
 
 char *readPipe(HANDLE pipename, int size) {
