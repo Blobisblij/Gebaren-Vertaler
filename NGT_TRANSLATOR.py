@@ -112,7 +112,11 @@ if (sys.argv[1] == "run"):
     lijst = []
     while True:
         lijstout = []
-        hr, intdata = win32file.ReadFile(pipe, 60)
+        try:
+         hr, intdata = win32file.ReadFile(pipe, 60)
+        except Exception as e:
+            print("Pipe closed, stopping...")
+            break  # exit the loop cleanly
         for byte in intdata:
             lijst.append(byte)
             if len(lijst) == 4:
@@ -123,9 +127,12 @@ if (sys.argv[1] == "run"):
 
             with torch.no_grad():
                 output = model(TensorLijstOut)
-                gesture_index =torch.argmax(output).item()
+                probabilities = torch.softmax(output,dim=0)
+                gesture_index =torch.argmax(probabilities).item()
                 prediction = index_to_label[gesture_index]
+                confidence = probabilities[gesture_index].item() * 100
+
                 if lastprediction != prediction:
-                    print(prediction)
+                    print(F"{prediction}: {confidence:.1f}% ")
                     lastprediction = prediction
     win32file.CloseHandle(pipe)
