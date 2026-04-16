@@ -4,6 +4,7 @@ import csv, os
 import sys
 import torch
 import pandas as pd
+import named_pipes
 from torch import nn
 from torchvision.transforms import ToTensor
 from handmodel import HandNN, train, test
@@ -12,6 +13,9 @@ from torch.utils.data import DataLoader, random_split
 from DatasetMaker import Dataset
 
 import win32file
+
+from named_pipes import openpipe, readpipe
+
 #setting os spesific var's
 if platform.system() == "Windows":
     #pipe_path = "\\\\.\\pipe\\Leapcam"
@@ -31,13 +35,7 @@ if sys.argv[1] == "collect":
         WordOrLetterToTrain = sys.argv[2]
 
         # open pipe the windows way
-        pipe = win32file.CreateFile(
-            pipe_path,
-            win32file.GENERIC_READ,
-            0, None,
-            win32file.OPEN_EXISTING,
-            0, None
-        )
+        pipe = openpipe(pipe_path)
 
         lijst = []
         totalinputdata = 0
@@ -45,7 +43,7 @@ if sys.argv[1] == "collect":
 
         while totalinputdata < maxinputdata:
             lijstout = []
-            hr, intdata = win32file.ReadFile(pipe, 60)  # read 60 bytes
+            intdata = readpipe(pipe,60)  # read 60 bytes
             for byte in intdata:
                 lijst.append(byte)
                 if len(lijst) == 4:
@@ -74,7 +72,7 @@ if sys.argv[1] == "train":
         test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
 
-        epochs = 15
+        epochs = 30
         for epoch in range(epochs):
             train(train_loader,model,loss_fn,optimizer)
             test(test_loader,model,loss_fn)
@@ -95,6 +93,7 @@ if sys.argv[1] == "train":
 if (sys.argv[1] == "run"):
     dataset = GestureDataset("gesture_dataset.csv")
     num_gestures = len(dataset.label_map)
+    print(num_gestures)
     model = HandNN(num_gestures).to(device)
     model.load_state_dict(torch.load('handmodel.pth'))
     model.eval()
@@ -102,18 +101,12 @@ if (sys.argv[1] == "run"):
     lastprediction = 0
 
     # open pipe the windows way
-    pipe = win32file.CreateFile(
-        pipe_path,
-        win32file.GENERIC_READ,
-        0, None,
-        win32file.OPEN_EXISTING,
-        0, None
-    )
+    pipe = openpipe(pipe_path)
     lijst = []
     while True:
         lijstout = []
         try:
-         hr, intdata = win32file.ReadFile(pipe, 60)
+            intdata = readpipe(pipe,60)
         except Exception as e:
             print("Pipe closed, stopping...")
             break  # exit the loop cleanly
