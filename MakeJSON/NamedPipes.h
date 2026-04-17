@@ -21,7 +21,7 @@ int createPipe(char * pipename);
 //reads from pipe
 char *readPipe(int pipe, int size);
 //writes to pipe
-int writePipe(int pipe, char *message);
+int writePipe(int pipe, int *message);
 //opens a pipe
 int openPipe(char * pipename);
 //closes a pipe
