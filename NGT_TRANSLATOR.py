@@ -54,8 +54,8 @@ if sys.argv[1] == "collect":
                 print(lijstout)
                 save_sample(lijstout, WordOrLetterToTrain)
                 totalinputdata += 1
-
-        win32file.CloseHandle(pipe)  # close after all samples collect
+        if platform.system() == "Windows":
+            win32file.CloseHandle(pipe)  # close after all samples collect
         print(F"Collected {totalinputdata} samples for  {WordOrLetterToTrain}")
 if sys.argv[1] == "train":
         dataset = GestureDataset("gesture_dataset.csv")
@@ -129,4 +129,5 @@ if (sys.argv[1] == "run"):
                 if lastprediction != prediction:
                     print(F"{prediction}: {confidence:.1f}% ")
                     lastprediction = prediction
-    win32file.CloseHandle(pipe)
+    if platform.system() == "Windows":
+        win32file.CloseHandle(pipe)
