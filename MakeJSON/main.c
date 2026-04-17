@@ -126,7 +126,26 @@ int main() {
         		XYZcoord[2] = pinky_delta_z;
         		deltaarray[4] = *XYZcoord;
 
-        		writePipe(pipe, deltaarray);
+        		int writeResult = writePipe(pipe, deltaarray);
+
+				#ifdef _WIN64
+        		if (writeResult == -1) {
+        			// Python disconnected, wacht op nieuwe client
+        			printf("Client weg, wachten op reconnect...\n");
+        			pipe = reconnectPipe(pipe, pipename);
+        			if (pipe == NULL) {
+        				printf("Kon geen nieuwe pipe maken\n");
+        				break;
+        			}
+        		}
+				#endif
+
+				#ifdef __linux__
+        		if (writeResult == -1) {
+        			// Kort pauzeren zodat je CPU niet vol draait
+        			usleep(100000); // 100ms
+        		}
+				#endif
 				//for (int i = 0; i < 5; i++)
 				//{
 				//    LEAP_DIGIT digit = hand1->digits[i];

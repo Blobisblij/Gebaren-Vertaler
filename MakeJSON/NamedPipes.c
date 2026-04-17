@@ -32,12 +32,14 @@ char *readPipe(int pipe, int size) {
     return readOutput;
 }
 
-int writePipe(int pipe, int *message) {
-    int succes = write(pipe,message,strlen(message));
+int writePipe(int pipe, int *message)
+{
+    ssize_t succes = write(pipe, message, 60);
 
-    if (!succes) {
-        printf("failed to write to pipe");
-        return 1;
+    if (succes == -1) {
+        // Niemand luistert (EPIPE) of andere fout
+        perror("write pipe");
+        return -1;  // -1 = client weg, niet fataal
     }
     return 0;
 }
@@ -128,6 +130,29 @@ HANDLE openPipe(char * pipename) {
         return 0;
     }
     return pipeHandle;
+}
+
+HANDLE reconnectPipe(HANDLE hPipe, char *pipename) {
+    CloseHandle(hPipe);
+
+    // Maak een nieuwe pipe instantie aan
+    HANDLE newPipe = CreateNamedPipe(
+        pipename,
+        PIPE_ACCESS_DUPLEX,
+        PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
+        PIPE_UNLIMITED_INSTANCES,
+        512, 512, 100, NULL);
+
+    if (newPipe == INVALID_HANDLE_VALUE) return NULL;
+
+    printf("Wachten op nieuwe client...\n");
+    BOOL connected = ConnectNamedPipe(newPipe, NULL) ?
+                     TRUE : (GetLastError() == ERROR_PIPE_CONNECTED);
+
+    if (!connected) { CloseHandle(newPipe); return NULL; }
+
+    printf("Nieuwe client verbonden!\n");
+    return newPipe;
 }
 
 int closePipe(HANDLE pipename) {
