@@ -34,9 +34,6 @@ int main() {
     strcpy(pipename, "\\\\.\\pipe\\Leapcam");
     HANDLE pipe = createPipe(pipename);
 #endif
-	//int XYZcoord[3];
-	//int *deltaarray = createArrayInt(5*sizeof(XYZcoord));
-
 	int *deltaarray = createArrayInt(15*sizeof(int));
     LEAP_CONNECTION connection = NULL;
     eLeapRS result = LeapCreateConnection(NULL, &connection);
@@ -138,7 +135,7 @@ int main() {
         		deltaarray[13] = pinky_delta_y;
         		deltaarray[14] = pinky_delta_z;
 
-        		writePipe(pipe, deltaarray);
+        		writePipe(pipe, deltaarray,60);
 
         		int i = 0;
         		while (i <= 14) {
@@ -161,7 +158,7 @@ int main() {
         	}
         	else
         	{
-        		writePipe(pipe, deltaarray);
+        		writePipe(pipe, deltaarray,60);
         		printf("No hands detected\n");
 			}
         }

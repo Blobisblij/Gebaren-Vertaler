@@ -32,10 +32,10 @@ char *readPipe(int pipe, int size) {
     return readOutput;
 }
 
-int writePipe(int pipe, int *message)
+int writePipe(int pipe, int *message, int size)
 {
     //magic number!!!
-    int succes = write(pipe,message,60);
+    int succes = write(pipe,message,size);
 
 
     if (!succes) {
@@ -102,11 +102,11 @@ HANDLE createPipe(char * pipename) {
     return hPipe;
 }
 //schrijf naar pipe voor windows
-int writePipe(HANDLE pipe, int *message) {
+int writePipe(HANDLE pipe, int *message, int size) {
     // schrijf naar de pipeDWORD written;
     DWORD written;
 
-    BOOL ok = WriteFile(pipe, message, 15 * sizeof(int), &written, NULL);
+    BOOL ok = WriteFile(pipe, message, size, &written, NULL);
 
     if (!ok) {
         DWORD err = GetLastError();
